@@ -1,4 +1,4 @@
-package me.card.solitaire.general;
+package me.card.solitaire.general.card;
 
 public enum SuitType {
      HEARTS("♥"), DIAMONDS("\t♦"), SPADES("♠"), CLUBS("♣");

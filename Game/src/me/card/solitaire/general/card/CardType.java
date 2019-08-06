@@ -1,4 +1,4 @@
-package me.card.solitaire.general;
+package me.card.solitaire.general.card;
 
 public enum CardType {
     ACE("A"), TWO("2"), THREE("3"), FOUR("4"), FIVE("5"), SIX("6"), SEVEN("7"),
