@@ -1,7 +1,7 @@
 package me.card.solitaire.general.card;
 
 public enum SuitType {
-     HEARTS("♥"), DIAMONDS("\t♦"), SPADES("♠"), CLUBS("♣");
+     HEARTS("♥"), DIAMONDS("♦"), SPADES("♠"), CLUBS("♣");
 
      String id;
 
