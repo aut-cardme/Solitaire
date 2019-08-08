@@ -32,4 +32,8 @@ public class Card {
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
     }
+
+    public boolean isOppositeColor(Card card){
+        return suit.isRed() ? card.getSuit().isBlack() : card.getSuit().isRed();
+    }
 }

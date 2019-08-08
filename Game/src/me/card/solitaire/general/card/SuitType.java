@@ -12,4 +12,12 @@ public enum SuitType {
      public String getID(){
          return id;
      }
+
+     public boolean isRed(){
+         return ordinal() < 2;
+     }
+
+     public boolean isBlack(){
+         return !isRed();
+     }
 }
