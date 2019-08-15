@@ -29,11 +29,17 @@ public class Card {
         return hidden;
     }
 
-    public void setHidden(boolean hidden) {
+    public boolean setHidden(boolean hidden) {
+        boolean oldValue = this.hidden;
         this.hidden = hidden;
+        return oldValue;
     }
 
     public boolean isOppositeColor(Card card){
         return suit.isRed() ? card.getSuit().isBlack() : card.getSuit().isRed();
+    }
+
+    public String getDisplay(){
+        return cardNo.getID() + suit.getID();
     }
 }

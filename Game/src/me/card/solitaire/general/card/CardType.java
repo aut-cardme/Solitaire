@@ -6,11 +6,22 @@ public enum CardType {
 
     String id;
 
-    CardType(String id){
+    CardType(String id) {
         this.id = id;
     }
 
-    public String getID(){
+    public String getID() {
         return id;
+    }
+
+    public boolean isTypeAfter(CardType type) {
+        switch (this) {
+            case ACE: {
+                return type == null;
+            }
+            default: {
+                return type != null && ordinal() - type.ordinal() == 1;
+            }
+        }
     }
 }
