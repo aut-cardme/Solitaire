@@ -20,7 +20,7 @@ public class Board {
     /**
      * The constant COLUMN_AMOUNT.
      */
-    public static int COLUMN_AMOUNT = 7;
+    public static final int COLUMN_AMOUNT = 7;
 
     private List<Card>[] columns;
     private List<Card>[] stored;
@@ -156,7 +156,7 @@ public class Board {
 
     }
 
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     private Card getRandomAndRemove(List<Card> list) {
         return list.remove(random.nextInt(list.size()));
@@ -366,18 +366,9 @@ public class Board {
      * @return was successful in removing the card
      */
     public boolean removeCard(int row, int column) {
-        int[][] arr = null;
-        if (isValid(row, column)) {
-            arr[row][column] = 1;
-        }
-        try {
-
-        } catch (Exception e) {
-
-        }
         Card card = getCard(row, column);
         if (card == null) {
-            return true;
+            return false;
         }
         columns[column].remove(row);
         revealCard(row - 1, column);
@@ -393,7 +384,7 @@ public class Board {
      */
     public boolean revealCard(int row, int column) {
         Card before = getCard(row, column);
-        return before != null ? before.setHidden(false) : false;
+        return before != null && before.setHidden(false);
     }
 
     /**
