@@ -1,23 +1,64 @@
+/*
+ * Copyright (c) 2019.
+ * Project for AUT University, Program Design & Construction
+ */
+
 package me.card.solitaire.general.card;
 
+/**
+ * The enum Suit type.
+ */
 public enum SuitType {
-     HEARTS("♥"), DIAMONDS("♦"), SPADES("♠"), CLUBS("♣");
+    /**
+     * Hearts suit type.
+     */
+    HEARTS("♥"),
+    /**
+     * Diamonds suit type.
+     */
+    DIAMONDS("♦"),
+    /**
+     * Spades suit type.
+     */
+    SPADES("♠"),
+    /**
+     * Clubs suit type.
+     */
+    CLUBS("♣");
 
-     String id;
+    /**
+     * The Id.
+     */
+    String id;
 
      SuitType(String id){
         this.id = id;
      }
 
-     public String getID(){
+    /**
+     * Get id string.
+     *
+     * @return the string
+     */
+    public String getID(){
          return id;
      }
 
-     public boolean isRed(){
+    /**
+     * Is red boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isRed(){
          return ordinal() < 2;
      }
 
-     public boolean isBlack(){
+    /**
+     * Is black boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isBlack(){
          return !isRed();
      }
 }
