@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class ConsoleMain {
 
     public static void main(String[] args) {
-        int input = 0;
+        String input = "";
 
         Scanner sc = new Scanner(System.in);
         //System.out.println("Select difficulty (1, 2 or 3) - how many cards are drawn from the deck at one time");
@@ -15,22 +15,20 @@ public class ConsoleMain {
 
         Board board = new Board();
 
-        while (input!=6 && !board.isFinished()) {
+        while (!input.equals("e") && !board.isFinished()) {
             board.printBoard();
 
-            //Difficulty being drawing 1,2, or 3 cards
-            System.out.println("[1] Move card   [2] Draw cards   [3] Store card");
-            System.out.println("[4] Load game   [5] Save game    [6] End game");
-            input = sc.nextInt();
-            sc.nextLine();
+            System.out.println("(m)ove card   (d)raw card   (s)tore card");
+            System.out.println("(lo)ad game   (sa)ve game   (e)nd game");
+            input = sc.nextLine();
 
             switch (input) {
-                case 1: {
+                case "m": {
                     // move selected card to designated position
                     System.out.println("From: (Select Card or D for deck) ");
-                    String anInput = sc.nextLine();
+                    String anInput = sc.nextLine().toLowerCase();
 
-                    if (anInput.toLowerCase().equals("d")){
+                    if (anInput.equals("d")){
                         System.out.println("To: (Select Column) ");
                         int moveTo = sc.nextInt();
                         sc.nextLine();
@@ -42,11 +40,10 @@ public class ConsoleMain {
                     int row;
                     int col;
 
+                    row = card / 10;
                     if (card < 100) {
-                        row = card / 10;
                         col = card % 10;
                     } else {
-                        row = card / 100;
                         col = card % 100;
                     }
 
@@ -61,12 +58,12 @@ public class ConsoleMain {
 
                     break;
                 }
-                case 2:
-                    // difficulty changes how many cards are drawn
+                case "d":
+                    // draw top card of deck
                     board.nextDeck();
 
                     break;
-                case 3: {
+                case "s": {
 
                     System.out.println("From: (Select Card or D for deck) ");
                     String anInput = sc.nextLine();
@@ -93,13 +90,13 @@ public class ConsoleMain {
 
                     break;
                 }
-                case 4:
+                case "lo":
                     // load game from file
                     break;
-                case 5:
+                case "sa":
                     // save game to file
                     break;
-                case 6:
+                case "e":
                     // exit game - possibly auto save when closed
                     break;
 
