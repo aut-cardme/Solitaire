@@ -153,7 +153,7 @@ public class Board {
         columns[4].set(4, card);
         columns[4].add(card1);
         columns[6].remove(6);
-        columns[6].set(5,card2);
+        columns[6].set(5, card2);
 
     }
 
@@ -172,7 +172,7 @@ public class Board {
      * @return if the move was successful
      */
     public boolean moveSelected(int toColumn) {
-        if(!isValid(0, toColumn)){
+        if (!isValid(0, toColumn)) {
             return false;
         }
         if (!hasSelected() || selectedColumn == toColumn) {
@@ -407,6 +407,21 @@ public class Board {
         return card.isHidden() ? "??" : card.getDisplay();
     }
 
+    public boolean storePossible() {
+        boolean stored = false;
+        for (int column = 0; column < COLUMN_AMOUNT; column++) {
+            Card card = getTopCard(column);
+            if (card != null && storeCard(card)) {
+                int index = columns[column].indexOf(card);
+                revealCard(index - 1, column);
+                columns[column].remove(index);
+                stored = true;
+                column = 0;
+            }
+        }
+        return stored;
+    }
+
     /**
      * The entry point of application.
      *
@@ -416,7 +431,7 @@ public class Board {
         Board board = new Board();
         board.setupTest();
         board.printBoard();
-        System.out.println(board.selectCard(5,6));
+        System.out.println(board.selectCard(5, 6));
         System.out.println(board.moveSelected(4));
         board.printBoard();
     }
