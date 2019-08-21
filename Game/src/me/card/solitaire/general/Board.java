@@ -145,6 +145,7 @@ public class Board {
     /**
      * Setup for the test case
      */
+
     public void setupTest() {
         Card card = new Card(SuitType.SPADES, CardType.NINE);
         Card card1 = new Card(SuitType.HEARTS, CardType.EIGHT);
@@ -155,6 +156,7 @@ public class Board {
         columns[6].set(5,card2);
 
     }
+
 
     private static final Random random = new Random();
 

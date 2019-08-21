@@ -12,11 +12,11 @@ public enum SuitType {
     /**
      * Hearts suit type.
      */
-    HEARTS("♥"),
+    HEARTS("\u001B[31m♥\u001B[0m"),
     /**
      * Diamonds suit type.
      */
-    DIAMONDS("♦"),
+    DIAMONDS("\u001B[31m♦\u001B[0m"),
     /**
      * Spades suit type.
      */
