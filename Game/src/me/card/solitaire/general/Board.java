@@ -147,9 +147,9 @@ public class Board {
      */
 
     public void setupTest() {
-        Card card = new Card(SuitType.SPADES, CardType.NINE);
-        Card card1 = new Card(SuitType.HEARTS, CardType.EIGHT);
-        Card card2 = new Card(SuitType.SPADES, CardType.SEVEN);
+        Card card = new Card(SuitType.CLUBS, CardType.QUEEN);
+        Card card1 = new Card(SuitType.DIAMONDS, CardType.JACK);
+        Card card2 = new Card(SuitType.SPADES, CardType.TEN);
         columns[4].set(4, card);
         columns[4].add(card1);
         columns[6].remove(6);
@@ -172,6 +172,9 @@ public class Board {
      * @return if the move was successful
      */
     public boolean moveSelected(int toColumn) {
+        if(!isValid(0, toColumn)){
+            return false;
+        }
         if (!hasSelected() || selectedColumn == toColumn) {
             return false;
         }
@@ -356,7 +359,7 @@ public class Board {
      * @return if is valid position on the board
      */
     public boolean isValid(int row, int column) {
-        return row >= 0 && row < 5 && column >= 0 && column < 5;
+        return row >= 0 && row < 5 && column >= 0 && column < COLUMN_AMOUNT;
     }
 
     /**
@@ -413,7 +416,9 @@ public class Board {
         Board board = new Board();
         board.setupTest();
         board.printBoard();
-        System.out.println(board.selectCard(6,5));
+        System.out.println(board.selectCard(5,6));
+        System.out.println(board.moveSelected(4));
+        board.printBoard();
     }
 
     /**
