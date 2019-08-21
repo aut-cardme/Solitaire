@@ -15,7 +15,7 @@ public class ConsoleMain {
 
         Board board = new Board();
 
-        while (!input.equals("e") && !board.isFinished()) {
+        while (!input.equals("e") || !board.isFinished()) {
             board.printBoard();
 
             System.out.println("(m)ove card   (d)raw card   (s)tore card");
@@ -51,8 +51,6 @@ public class ConsoleMain {
                     int moveTo = sc.nextInt();
                     sc.nextLine();
 
-                    System.out.println(row);
-                    System.out.println(col);
                     board.selectCard(row, col);
                     board.moveSelected(moveTo);
                     break;
