@@ -55,7 +55,6 @@ public class ConsoleMain {
                     System.out.println(col);
                     board.selectCard(row, col);
                     board.moveSelected(moveTo);
-
                     break;
                 }
                 case "d":
