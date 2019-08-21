@@ -147,13 +147,13 @@ public class Board {
      */
 
     public void setupTest() {
-        Card card = new Card(SuitType.HEARTS, CardType.ACE);
-        Card card1 = new Card(SuitType.SPADES, CardType.TWO);
-        Card card2 = new Card(SuitType.HEARTS, CardType.THREE);
-        columns[1].set(1, card1);
-        columns[1].add(card);
-        columns[2].add(card2);
-        columns[0].clear();
+        Card card = new Card(SuitType.CLUBS, CardType.QUEEN);
+        Card card1 = new Card(SuitType.DIAMONDS, CardType.JACK);
+        Card card2 = new Card(SuitType.SPADES, CardType.TEN);
+        columns[4].set(4, card);
+        columns[4].add(card1);
+        columns[6].remove(6);
+        columns[6].set(5,card2);
 
     }
 
@@ -172,6 +172,9 @@ public class Board {
      * @return if the move was successful
      */
     public boolean moveSelected(int toColumn) {
+        if(!isValid(0, toColumn)){
+            return false;
+        }
         if (!hasSelected() || selectedColumn == toColumn) {
             return false;
         }
@@ -356,7 +359,7 @@ public class Board {
      * @return if is valid position on the board
      */
     public boolean isValid(int row, int column) {
-        return row >= 0 && row < 5 && column >= 0 && column < 5;
+        return row >= 0 && row < 5 && column >= 0 && column < COLUMN_AMOUNT;
     }
 
     /**
@@ -413,13 +416,8 @@ public class Board {
         Board board = new Board();
         board.setupTest();
         board.printBoard();
-        System.out.println(board.selectCard(1, 1));
-        board.printBoard();
-        System.out.println(board.moveDeckTo(0));
-        board.printBoard();
-        System.out.println(board.nextDeck());
-        board.printBoard();
-        System.out.println(board.moveDeckTo(0));
+        System.out.println(board.selectCard(5,6));
+        System.out.println(board.moveSelected(4));
         board.printBoard();
     }
 
