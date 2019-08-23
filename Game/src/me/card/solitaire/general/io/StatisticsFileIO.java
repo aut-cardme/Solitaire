@@ -10,6 +10,7 @@ import me.card.solitaire.general.statistics.PlayerStatistics;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
@@ -42,8 +43,11 @@ public class StatisticsFileIO {
     public static void save(PlayerStatistics statistics, String filePath) {
         File file = new File(new File("."), filePath);
         try {
-            BufferedWriter bw = Files.newBufferedWriter(file.toPath(), StandardOpenOption.APPEND);
-            bw.append(String.format("%s, %d, %d", statistics.getName(), statistics.getMoves(), statistics.getSeconds()));
+            if(!file.exists()){
+
+            }
+            BufferedWriter bw = Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            bw.append(String.format("%s, %d, %d\r\n", statistics.getName(), statistics.getMoves(), statistics.getSeconds()));
             bw.close();
         } catch (Exception e) {
             e.printStackTrace();

@@ -6,38 +6,66 @@
 package me.card.solitaire.console;
 
 import me.card.solitaire.general.Board;
+import me.card.solitaire.general.io.StatisticsFileIO;
+import me.card.solitaire.general.statistics.PlayerStatistics;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleMain {
 
+    private static final String statsFile = "stats.txt";
+
     public static void main(String[] args) {
-        String input = "";
-
-        Scanner sc = new Scanner(System.in);
-        //System.out.println("Select difficulty (1, 2 or 3) - how many cards are drawn from the deck at one time");
-        int diff = 1;
-
         Board board = new Board();
 
-        while (!input.equals("e") || !board.isFinished()) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter name: ");
+        String name = "";
+        while(name.isEmpty()){
+            name = sc.nextLine();
+        }
+        List<PlayerStatistics> statisticsList = StatisticsFileIO.load(statsFile);
+        PlayerStatistics best = null;
+        for (PlayerStatistics stats : statisticsList) {
+            if(stats.getName().equals(name)){
+                if(best==null || stats.getMoves() < best.getMoves()){
+                    best = stats;
+                }
+            }
+        }
+
+        if(best==null){
+            System.out.println("You have no previous recorded statistics.");
+        }else{
+            System.out.println("Your best game was " + best.getMoves() + " moves, taking " + best.getSeconds() + " seconds.");
+        }
+
+        PlayerStatistics newStats = new PlayerStatistics(name);
+        long started = System.currentTimeMillis();
+
+        String input = "";
+        while (!input.equals("e") && !board.isFinished()) {
+
             board.printBoard();
 
-            System.out.println("(m)ove card   (d)raw card   (s)tore card");
-            System.out.println("(lo)ad game   (sa)ve game   (e)nd game");
+            System.out.println("(m)ove card   (d)raw card    (s)tore card");
+            System.out.println("(st)ats       (a)uto-store   (e)nd game");
             input = sc.nextLine();
 
             switch (input) {
                 case "m": {
                     // move selected card to designated position
-                    System.out.println("From: (Select Card or D for deck) ");
+                    System.out.println("From: (Select Card - 34 (rowcolumn) or D for deck) ");
                     String anInput = sc.nextLine().toLowerCase();
 
                     if (anInput.equals("d")){
                         System.out.println("To: (Select Column) ");
                         int moveTo = sc.nextInt();
                         sc.nextLine();
-                        board.moveDeckTo(moveTo);
+                        if(board.moveDeckTo(moveTo)) {
+                            newStats.incrementMoves();
+                        }
                         break;
                     }
                     int card = Integer.parseInt(anInput);
@@ -57,21 +85,26 @@ public class ConsoleMain {
                     sc.nextLine();
 
                     board.selectCard(row, col);
-                    board.moveSelected(moveTo);
+                    if(board.moveSelected(moveTo)) {
+                        newStats.incrementMoves();
+                    }
                     break;
                 }
                 case "d":
                     // draw top card of deck
-                    board.nextDeck();
-
+                    if(board.nextDeck()){
+                        newStats.incrementMoves();
+                    }
                     break;
                 case "s": {
-
+                    // stores the selected card
                     System.out.println("From: (Select Card or D for deck) ");
                     String anInput = sc.nextLine();
 
                     if (anInput.toLowerCase().equals("d")){
-                        board.storeDeck();
+                        if(board.storeDeck()) {
+                            newStats.incrementMoves();
+                        }
                         break;
                     }
                     int card = Integer.parseInt(anInput);
@@ -88,22 +121,28 @@ public class ConsoleMain {
                     }
 
                     board.selectCard(row, col);
-                    board.storeSelected();
-
+                    if(board.storeSelected()){
+                        newStats.incrementMoves();
+                    }
                     break;
                 }
-                case "lo":
-                    // load game from file
+                case "st":
                     break;
-                case "sa":
-                    // save game to file
+                case "a":
+                    if(board.storePossible()){
+                        newStats.incrementMoves();
+                    }
                     break;
                 case "e":
-                    // exit game - possibly auto save when closed
+                    // exit game
                     break;
-
             }
-
         }
+        long taken = System.currentTimeMillis() - started;
+        long seconds = taken / 1000;
+        newStats.setSeconds((int)seconds);
+        StatisticsFileIO.save(newStats, statsFile);
+        System.out.println("You completed the game with " + newStats.getMoves() + " moves, taking " + newStats.getSeconds() + " seconds.");
+
     }
 }
