@@ -1,3 +1,8 @@
+/*
+ * Copyright Ashley Thew, Connor Teh-Hall 2019.
+ * Project for AUT University, Program Design & Construction
+ */
+
 package me.card.solitaire.console;
 
 import me.card.solitaire.general.Board;

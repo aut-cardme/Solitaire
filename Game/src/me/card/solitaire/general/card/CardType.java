@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019.
+ * Copyright Ashley Thew, Connor Teh-Hall 2019.
  * Project for AUT University, Program Design & Construction
  */
 
