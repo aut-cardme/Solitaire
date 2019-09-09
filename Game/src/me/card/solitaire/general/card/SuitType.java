@@ -12,11 +12,11 @@ public enum SuitType {
     /**
      * Hearts suit type.
      */
-    HEARTS("\u001B[31m♥\u001B[0m"),
+    HEARTS("♥"),
     /**
      * Diamonds suit type.
      */
-    DIAMONDS("\u001B[31m♦\u001B[0m"),
+    DIAMONDS("♦"),
     /**
      * Spades suit type.
      */
@@ -42,6 +42,14 @@ public enum SuitType {
      */
     public String getID(){
          return id;
+     }
+/**
+     * Get console id string.
+     *
+     * @return the console string
+     */
+    public String getConsoleID(){
+         return isRed() ? "\u001B[31m" + getID() + "\u001B[0m" : getID();
      }
 
     /**

@@ -47,7 +47,8 @@ public class StatisticsFileIO {
 
             }
             BufferedWriter bw = Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            bw.append(String.format("%s, %d, %d\r\n", statistics.getName(), statistics.getMoves(), statistics.getSeconds()));
+            bw.append(String.format("%s, %d, %d", statistics.getName(), statistics.getMoves(), statistics.getSeconds()));
+            bw.newLine();
             bw.close();
         } catch (Exception e) {
             e.printStackTrace();

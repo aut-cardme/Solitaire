@@ -62,6 +62,18 @@ public class Board {
         return getCard(selectedRow, selectedColumn);
     }
 
+
+    public List<Card> getSelectedCards() {
+        List<Card> cards = new ArrayList<>();
+        if (selectedRow >= 0 && selectedColumn >= 0) {
+            int height = getBoardHeightAt(selectedColumn);
+            for (int row = selectedRow; row < height; row++) {
+                cards.add(getCard(row, selectedColumn));
+            }
+        }
+        return cards;
+    }
+
     /**
      * Has the board selected a card
      *
@@ -107,6 +119,19 @@ public class Board {
     }
 
     /**
+     * Checks the column height at the index
+     *
+     * @return the height
+     */
+    public int getBoardHeightAt(int column) {
+        int height = 0;
+        if (column < COLUMN_AMOUNT) {
+            height = Math.max(height, columns[column].size());
+        }
+        return height;
+    }
+
+    /**
      * Setup for the board, can be used to reset the board also
      */
     public void setup() {
@@ -147,13 +172,11 @@ public class Board {
      */
 
     public void setupTest() {
-        Card card = new Card(SuitType.CLUBS, CardType.QUEEN);
+        Card card = new Card(SuitType.CLUBS, CardType.KING);
         Card card1 = new Card(SuitType.DIAMONDS, CardType.JACK);
         Card card2 = new Card(SuitType.SPADES, CardType.TEN);
-        columns[4].set(4, card);
-        columns[4].add(card1);
-        columns[6].remove(6);
-        columns[6].set(5, card2);
+        columns[0].remove(0);
+        columns[1].add(card);
 
     }
 
@@ -162,33 +185,6 @@ public class Board {
 
     private Card getRandomAndRemove(List<Card> list) {
         return list.remove(random.nextInt(list.size()));
-    }
-
-    /**
-     * Move selected card to another column
-     * Removes card from original column and clears selections when complete
-     *
-     * @param toColumn the to column
-     * @return if the move was successful
-     */
-    public boolean moveSelected(int toColumn) {
-        if (!isValid(0, toColumn)) {
-            return false;
-        }
-        if (!hasSelected() || selectedColumn == toColumn) {
-            return false;
-        }
-        Card selected = getSelectedCard();
-        Card toTop = getTopCard(toColumn);
-        if (toTop != null && (!selected.isOppositeColor(toTop) || !toTop.getCardNo().isTypeAfter(selected.getCardNo()))) {
-            return false;
-        }
-        do {
-            columns[toColumn].add(selected);
-            removeCard(selectedRow, selectedColumn);
-        } while ((selected = getSelectedCard()) != null);
-        clearSelection();
-        return true;
     }
 
     /**
@@ -204,6 +200,9 @@ public class Board {
         }
         Card card = deck.get(deckPoint);
         Card toTop = getTopCard(toColumn);
+        if (toTop == null && card.getCardNo() != CardType.KING) {
+            return false;
+        }
         if (toTop != null && (!card.isOppositeColor(toTop) || !toTop.getCardNo().isTypeAfter(card.getCardNo()))) {
             return false;
         }
@@ -214,10 +213,41 @@ public class Board {
     }
 
     /**
+     * @return the size of the deck
+     */
+    public int getDeckSize(){
+        return deck.size();
+    }
+
+    /**
+     * Gets the card on the top of the deck
+     *
+     * @return the top card if valid else null
+     */
+    public Card getTopDeck() {
+        if (deck.size() == 0 || deckPoint < 0) {
+            return null;
+        }
+        return deck.get(deckPoint);
+    }
+
+    /**
+     * Gets the card behind the top card of the deck
+     *
+     * @return the behind top card if valid else null
+     */
+    public Card getBehindTopDeck() {
+        if (deck.size() == 0 || deckPoint < 1) {
+            return null;
+        }
+        return deck.get(deckPoint-1);
+    }
+
+    /**
      * Reveals the next card in the deck
      * At the end of the deck, it then resets to not showing value
      *
-     * @return if the deck has a next card toi draw
+     * @return if the deck has a next card to draw
      */
     public boolean nextDeck() {
         if (deck.size() == 0) {
@@ -252,6 +282,17 @@ public class Board {
             clearSelection();
         }
         return stored;
+    }
+
+
+    /**
+     * Get the stored cards for a suit
+     *
+     * @param suit the suit to get
+     * @return the stored cards
+     */
+    public List<Card> getStored(SuitType suit){
+        return stored[suit.ordinal()];
     }
 
     /**
@@ -322,6 +363,37 @@ public class Board {
 
         selectedRow = row;
         selectedColumn = col;
+        return true;
+    }
+
+
+    /**
+     * Move selected card to another column
+     * Removes card from original column and clears selections when complete
+     *
+     * @param toColumn the to column
+     * @return if the move was successful
+     */
+    public boolean moveSelected(int toColumn) {
+        if (!isValid(0, toColumn)) {
+            return false;
+        }
+        if (!hasSelected() || selectedColumn == toColumn) {
+            return false;
+        }
+        Card selected = getSelectedCard();
+        Card toTop = getTopCard(toColumn);
+        if (toTop == null && selected.getCardNo() != CardType.KING) {
+            return false;
+        }
+        if (toTop != null && (!selected.isOppositeColor(toTop) || !toTop.getCardNo().isTypeAfter(selected.getCardNo()))) {
+            return false;
+        }
+        do {
+            columns[toColumn].add(selected);
+            removeCard(selectedRow, selectedColumn);
+        } while ((selected = getSelectedCard()) != null);
+        clearSelection();
         return true;
     }
 
@@ -404,7 +476,7 @@ public class Board {
         if (card == null) {
             return "  ";
         }
-        return card.isHidden() ? "??" : card.getDisplay();
+        return card.isHidden() ? "??" : card.getConsoleDisplay();
     }
 
     public boolean storePossible() {
@@ -467,10 +539,10 @@ public class Board {
         Arrays.stream(SuitType.values()).forEach(st -> {
             List<Card> cards = stored[st.ordinal()];
             if (cards.size() == 0) {
-                System.out.print("~" + st.getID() + " ");
+                System.out.print("~" + st.getConsoleID() + " ");
             } else {
                 Card card = cards.get(cards.size() - 1);
-                System.out.print(card.getDisplay() + " ");
+                System.out.print(card.getConsoleDisplay() + " ");
             }
         });
         System.out.println();
@@ -478,7 +550,7 @@ public class Board {
         //DECK
         System.out.print("Deck: ");
         if (deckPoint != -1) {
-            System.out.print(deck.get(deckPoint).getDisplay());
+            System.out.print(deck.get(deckPoint).getConsoleDisplay());
         } else {
             if (deck.size() > 0) {
                 System.out.print("??");

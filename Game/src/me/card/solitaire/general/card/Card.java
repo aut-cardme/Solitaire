@@ -97,6 +97,15 @@ public class Card {
     }
 
     /**
+     * Get console display info of the card
+     *
+     * @return the card as a string
+     */
+    public String getConsoleDisplay(){
+        return cardNo.getID() + suit.getConsoleID();
+    }
+
+    /**
      * Get display info of the card
      *
      * @return the card as a string
