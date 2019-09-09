@@ -1,3 +1,4 @@
 out/*
 *.xml
 Game/Game.iml
+*.iml
