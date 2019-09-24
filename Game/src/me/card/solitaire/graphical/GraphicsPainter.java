@@ -4,5 +4,5 @@ import java.awt.*;
 
 public interface GraphicsPainter {
 
-   void painter(Graphics graphics);
+    void painter(Graphics graphics);
 }

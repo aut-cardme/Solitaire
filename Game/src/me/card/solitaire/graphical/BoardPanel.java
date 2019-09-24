@@ -9,25 +9,26 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-public class BoardPanel extends JPanel implements GraphicsPainter{
+public class BoardPanel extends JPanel implements GraphicsPainter {
 
     private GameInterface main;
 
     public BoardPanel(GameInterface main) {
         this.main = main;
-        setBackground(Color.CYAN);
         setPreferredSize(new Dimension(700, 570));
+        setBackground(new Color(18, 117, 5));
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 if (e.getClickCount() == 2) {
                     Point p = getCardPoint(e);
-                    if(e.getY() <= 100 + p.getY() * 30) {
+                    if (e.getY() <= 100 + p.getY() * 30) {
                         main.getBoard().selectCard(p.getY(), p.getX());
                         main.getBoard().storeSelected();
                         main.getBoard().clearSelection();
-                    }else{
+                    } else {
+                        //Cause kristy asked for it
                         main.getBoard().storePossible();
                     }
                 }
@@ -37,7 +38,7 @@ public class BoardPanel extends JPanel implements GraphicsPainter{
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
                 Point p = getCardPoint(e);
-                if(e.getY() <= 100 + p.getY() * 30) {
+                if (e.getY() <= 100 + p.getY() * 30) {
                     main.getBoard().selectCard(p.getY(), p.getX());
                 }
             }
@@ -46,12 +47,12 @@ public class BoardPanel extends JPanel implements GraphicsPainter{
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
                 if (main.getBoard().getSelectedCard() != null) {
-                    if(e.getY() < 0){
+                    if (e.getY() < 0) {
                         main.getBoard().storeSelected();
                         main.getBoard().clearSelection();
-                    }else {
+                    } else {
                         Point p = getCardPoint(e);
-                         main.getBoard().moveSelected(p.getX());
+                        main.getBoard().moveSelected(p.getX());
                         main.getBoard().clearSelection();
                     }
                 }

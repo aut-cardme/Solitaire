@@ -177,7 +177,6 @@ public class Board {
         Card card2 = new Card(SuitType.SPADES, CardType.TEN);
         columns[0].remove(0);
         columns[1].add(card);
-
     }
 
 
