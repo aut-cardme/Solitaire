@@ -38,12 +38,14 @@ public class DeckPanel extends JPanel implements GraphicsPainter {
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
                 //END OF DRAG
-                if (e.getY() > getHeight()) {
-                    Point point = main.getMouseLocation();
-                    int column = point.getX() / 100;
-                    main.getBoard().moveDeckTo(column);
-                } else if (e.getX() > getWidth()) {
-                    main.getBoard().storeDeck();
+                if(dragging) {
+                    if (e.getY() > getHeight()) {
+                        Point point = main.getMouseLocation();
+                        int column = point.getX() / 100;
+                        main.getBoard().moveDeckTo(column);
+                    } else if (e.getX() > getWidth()) {
+                        main.getBoard().storeDeck();
+                    }
                 }
                 dragging = false;
             }

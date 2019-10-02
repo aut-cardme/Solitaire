@@ -294,6 +294,25 @@ public class Board {
         return stored[suit.ordinal()];
     }
 
+    public boolean moveTopStoredTo(SuitType type, int toColumn){
+        List<Card> cards = getStored(type);
+        if(cards.size()==0){
+            return false;
+        }
+        Card selected = cards.get(cards.size()-1);
+
+        Card toTop = getTopCard(toColumn);
+        if (toTop == null && selected.getCardNo() != CardType.KING) {
+            return false;
+        }
+        if (toTop != null && (!selected.isOppositeColor(toTop) || !toTop.getCardNo().isTypeAfter(selected.getCardNo()))) {
+            return false;
+        }
+        columns[toColumn].add(selected);
+        cards.remove(cards.size()-1);
+        return true;
+    }
+
     /**
      * Store single card
      *
