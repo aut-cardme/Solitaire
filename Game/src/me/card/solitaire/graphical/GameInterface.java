@@ -1,5 +1,6 @@
 package me.card.solitaire.graphical;
 
+import me.card.solitaire.database.SolitaireDatabase;
 import me.card.solitaire.general.Board;
 import me.card.solitaire.general.card.Card;
 
@@ -23,6 +24,8 @@ public class GameInterface extends JPanel {
                 frame.pack();
                 frame.setVisible(true);
                 frame.setResizable(false);
+                //SolitaireDatabase db = new SolitaireDatabase("localhost", "1527", "test");
+                //db.connect();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -30,6 +33,7 @@ public class GameInterface extends JPanel {
     }
 
     private Board board;
+    private long started;
 
     public GameInterface() {
         super();
@@ -45,13 +49,15 @@ public class GameInterface extends JPanel {
     }
 
     private void initialize() {
+        setBackground(new Color(18, 117, 5));
         board = new Board();
         board.setup();
+        started = System.currentTimeMillis();
         BoardPanel panel = new BoardPanel(this);
         TopPanel top = new TopPanel(this);
 
-        add(panel, BorderLayout.SOUTH);
         add(top, BorderLayout.NORTH);
+        add(panel, BorderLayout.SOUTH);
     }
 
     public Board getBoard() {
@@ -77,6 +83,7 @@ public class GameInterface extends JPanel {
             } else {
                 g.setColor(card.getSuit().isRed() ? Color.RED : Color.BLACK);
                 g.drawString(card.getDisplay(), x + 5, y + 20);
+                g.drawString(card.getDisplay(), x + 50, y + 90);
             }
         }
     }

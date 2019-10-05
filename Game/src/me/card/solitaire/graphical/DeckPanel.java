@@ -1,5 +1,7 @@
 package me.card.solitaire.graphical;
 
+import me.card.solitaire.general.card.Card;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -13,7 +15,7 @@ public class DeckPanel extends JPanel implements GraphicsPainter {
 
     public DeckPanel(GameInterface main) {
         this.main = main;
-        setPreferredSize(new Dimension(100, 120));
+        setPreferredSize(new Dimension(120, 120));
         setBackground(new Color(18, 117, 5));
         addMouseListener(new MouseAdapter() {
             @Override
@@ -38,7 +40,7 @@ public class DeckPanel extends JPanel implements GraphicsPainter {
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
                 //END OF DRAG
-                if(dragging) {
+                if (dragging) {
                     if (e.getY() > getHeight()) {
                         Point point = main.getMouseLocation();
                         int column = point.getX() / 100;
@@ -46,8 +48,8 @@ public class DeckPanel extends JPanel implements GraphicsPainter {
                     } else if (e.getX() > getWidth()) {
                         main.getBoard().storeDeck();
                     }
+                    dragging = false;
                 }
-                dragging = false;
             }
         });
     }
@@ -60,7 +62,11 @@ public class DeckPanel extends JPanel implements GraphicsPainter {
             if (dragging && (point.getY() > getHeight() || point.getX() > getWidth())) {
                 main.drawCard(g, 10, 10, main.getBoard().getBehindTopDeck());
             } else {
-                main.drawCard(g, 10, 10, main.getBoard().getTopDeck());
+                Card card = main.getBoard().getTopDeck();
+                if (main.getBoard().getDeckSize() != 1) {
+                    main.drawCard(g, 10, 10, main.getBoard().getBehindTopDeck());
+                }
+                main.drawCard(g, card == null ? 10 : 40, 10, card);
             }
         }
     }

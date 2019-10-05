@@ -35,6 +35,13 @@ public class Board {
         setup();
     }
 
+    public Board(List<Card>[] columns, List<Card>[] stored, List<Card> deck, int deckPoint) {
+        this.columns = columns;
+        this.stored = stored;
+        this.deck = deck;
+        this.deckPoint = deckPoint;
+    }
+
     /**
      * Gets selected row.
      *
@@ -167,19 +174,6 @@ public class Board {
         deckPoint = -1;
     }
 
-    /**
-     * Setup for the test case
-     */
-
-    public void setupTest() {
-        Card card = new Card(SuitType.CLUBS, CardType.KING);
-        Card card1 = new Card(SuitType.DIAMONDS, CardType.JACK);
-        Card card2 = new Card(SuitType.SPADES, CardType.TEN);
-        columns[0].remove(0);
-        columns[1].add(card);
-    }
-
-
     private static final Random random = new Random();
 
     private Card getRandomAndRemove(List<Card> list) {
@@ -214,7 +208,7 @@ public class Board {
     /**
      * @return the size of the deck
      */
-    public int getDeckSize(){
+    public int getDeckSize() {
         return deck.size();
     }
 
@@ -239,7 +233,7 @@ public class Board {
         if (deck.size() == 0 || deckPoint < 1) {
             return null;
         }
-        return deck.get(deckPoint-1);
+        return deck.get(deckPoint - 1);
     }
 
     /**
@@ -290,16 +284,17 @@ public class Board {
      * @param suit the suit to get
      * @return the stored cards
      */
-    public List<Card> getStored(SuitType suit){
+    public List<Card> getStored(SuitType suit) {
         return stored[suit.ordinal()];
     }
 
-    public boolean moveTopStoredTo(SuitType type, int toColumn){
+
+    public boolean moveTopStoredTo(SuitType type, int toColumn) {
         List<Card> cards = getStored(type);
-        if(cards.size()==0){
+        if (cards.size() == 0) {
             return false;
         }
-        Card selected = cards.get(cards.size()-1);
+        Card selected = cards.get(cards.size() - 1);
 
         Card toTop = getTopCard(toColumn);
         if (toTop == null && selected.getCardNo() != CardType.KING) {
@@ -309,7 +304,7 @@ public class Board {
             return false;
         }
         columns[toColumn].add(selected);
-        cards.remove(cards.size()-1);
+        cards.remove(cards.size() - 1);
         return true;
     }
 
@@ -510,20 +505,6 @@ public class Board {
             }
         }
         return stored;
-    }
-
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
-    public static void main(String[] args) {
-        Board board = new Board();
-        board.setupTest();
-        board.printBoard();
-        System.out.println(board.selectCard(5, 6));
-        System.out.println(board.moveSelected(4));
-        board.printBoard();
     }
 
     /**

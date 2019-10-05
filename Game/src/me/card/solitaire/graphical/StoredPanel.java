@@ -10,7 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-public class StoredPanel extends JPanel implements GraphicsPainter{
+public class StoredPanel extends JPanel implements GraphicsPainter {
 
     private GameInterface main;
 
@@ -30,8 +30,7 @@ public class StoredPanel extends JPanel implements GraphicsPainter{
                 super.mousePressed(e);
                 Point point = main.getMouseLocation();
                 int column = point.getX() / 100 - 3;
-                System.out.println(column);
-                if(column >= 0){
+                if (column >= 0) {
                     dragging = SuitType.values()[column];
                 }
             }
@@ -40,7 +39,7 @@ public class StoredPanel extends JPanel implements GraphicsPainter{
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
                 //END OF DRAG
-                if (dragging!=null && e.getY() > getHeight()) {
+                if (dragging != null && e.getY() > getHeight()) {
                     Point point = main.getMouseLocation();
                     int column = point.getX() / 100;
                     main.getBoard().moveTopStoredTo(dragging, column);
@@ -53,16 +52,16 @@ public class StoredPanel extends JPanel implements GraphicsPainter{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int maxWidth = getX() + getWidth();
-        int count = SuitType.values().length-1;
+        int maxWidth = getWidth();
+        int count = SuitType.values().length - 1;
         Board b = main.getBoard();
         for (SuitType st : SuitType.values()) {
             List<Card> cards = b.getStored(st);
             int size = cards.size();
             if (size == 0 || dragging == st) {
-                main.drawCard(g, maxWidth - 190 - 100 * count, 10, null);
+                main.drawCard(g, maxWidth - 90 - 100 * count, 10, null);
             } else {
-                main.drawCard(g, maxWidth - 190 - 100 * count, 10, cards.get(size - 1));
+                main.drawCard(g, maxWidth - 90 - 100 * count, 10, cards.get(size - 1));
             }
             count--;
         }
@@ -70,11 +69,11 @@ public class StoredPanel extends JPanel implements GraphicsPainter{
 
     @Override
     public void painter(Graphics g) {
-        if (dragging!=null) {
+        if (dragging != null) {
             Point point = main.getMouseLocation();
             if (point.getY() > getHeight() || point.getX() > getWidth()) {
                 List<Card> stored = main.getBoard().getStored(dragging);
-                if(stored.size()>0) {
+                if (stored.size() > 0) {
                     Card card = stored.get(stored.size() - 1);
                     main.drawCard(g, point.getX() - 40, point.getY(), card);
                 }
