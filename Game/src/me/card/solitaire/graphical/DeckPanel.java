@@ -6,52 +6,28 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
-public class DeckPanel extends JPanel implements GraphicsPainter {
+/**
+ * The type Deck panel.
+ */
+public class DeckPanel extends JPanel implements GraphicsPainter, MouseListener {
 
     private GameInterface main;
 
     private boolean dragging;
 
+    /**
+     * Instantiates a new Deck panel.
+     *
+     * @param main the main interface
+     */
     public DeckPanel(GameInterface main) {
         this.main = main;
         setPreferredSize(new Dimension(120, 120));
         setBackground(new Color(18, 117, 5));
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if (e.getClickCount() == 2) {
-                    main.getBoard().storeDeck();
-                } else {
-                    main.getBoard().nextDeck();
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                super.mousePressed(e);
-                if (main.getBoard().getTopDeck() != null) {
-                    dragging = true;
-                }
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                super.mouseReleased(e);
-                //END OF DRAG
-                if (dragging) {
-                    if (e.getY() > getHeight()) {
-                        Point point = main.getMouseLocation();
-                        int column = point.getX() / 100;
-                        main.getBoard().moveDeckTo(column);
-                    } else if (e.getX() > getWidth()) {
-                        main.getBoard().storeDeck();
-                    }
-                    dragging = false;
-                }
-            }
-        });
+        addMouseListener(this);
     }
 
     @Override
@@ -79,5 +55,46 @@ public class DeckPanel extends JPanel implements GraphicsPainter {
                 main.drawCard(g, point.getX() - 40, point.getY(), main.getBoard().getTopDeck());
             }
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getClickCount() == 2) {
+            main.getBoard().storeDeck();
+        } else {
+            main.getBoard().nextDeck();
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if (main.getBoard().getTopDeck() != null) {
+            dragging = true;
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        if (dragging) {
+            if (e.getY() > getHeight()) {
+                Point point = main.getMouseLocation();
+                int column = point.getX() / 100;
+                main.getBoard().moveDeckTo(column);
+            } else if (e.getX() > getWidth()) {
+                main.getBoard().storeDeck();
+                main.checkFinished();
+            }
+            dragging = false;
+        }
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }

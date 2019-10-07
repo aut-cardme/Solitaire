@@ -29,8 +29,6 @@ public class SolitaireDatabase {
             getHighscores = connection.prepareStatement("SELECT * FROM `highscores` LIMIT 10 ORDER BY `time`;");
             addHighscore = connection.prepareStatement("INSERT INTO `highscores` (`name`, `time`) VALUES (?,?);");
 
-
-
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -117,4 +117,10 @@ public class GameInterface extends JPanel {
         java.awt.Point panel = getLocationOnScreen();
         return new Point(mouse.getX() - panel.getX(), mouse.getY() - panel.getY());
     }
+
+    public void checkFinished(){
+        if(board.isFinished()){
+
+        }
+    }
 }

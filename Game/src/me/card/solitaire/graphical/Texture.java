@@ -6,8 +6,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 
+/**
+ * The type Texture.
+ */
 public class Texture {
 
+    /**
+     * The constant CARD_BACK.
+     */
     public static BufferedImage CARD_BACK = new Texture("/cardback.png").get();
 
     private String path;
@@ -16,6 +22,11 @@ public class Texture {
         this.path = path;
     }
 
+    /**
+     * Retrieves the image from internal jar, if not found will try to retrieve from resources folder
+     *
+     * @return the image or a 1x1 blank image if unable to find
+     */
     private BufferedImage get() {
         try {
             URL url = getClass().getResource(path);
