@@ -24,10 +24,14 @@ public class SolitaireDatabase {
             connection = DriverManager.getConnection(url);
 
             Statement stmt = connection.createStatement();
-            stmt.execute("CREATE TABLE IF NOT EXISTS `highscores` (`name` VARCHAR(100) NOT NULL, `time` INT NOT NULL);");
+            try {
+                stmt.execute("CREATE TABLE highscores (name VARCHAR(100) NOT NULL, time INT NOT NULL)");
+            }catch (Exception e){
 
-            getHighscores = connection.prepareStatement("SELECT * FROM `highscores` LIMIT 10 ORDER BY `time`;");
-            addHighscore = connection.prepareStatement("INSERT INTO `highscores` (`name`, `time`) VALUES (?,?);");
+            }
+
+            getHighscores = connection.prepareStatement("SELECT * FROM highscores ORDER BY time");
+            addHighscore = connection.prepareStatement("INSERT INTO highscores (name, time) VALUES (?,?)");
 
         }catch (Exception e){
             e.printStackTrace();

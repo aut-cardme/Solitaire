@@ -6,7 +6,6 @@ import me.card.solitaire.general.card.SuitType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
@@ -44,9 +43,9 @@ public class StoredPanel extends JPanel implements GraphicsPainter, MouseListene
             List<Card> cards = b.getStored(st);
             int size = cards.size();
             if (size == 0 || dragging == st) {
-                main.drawCard(g, maxWidth - 90 - 100 * count, 10, null);
+                main.drawCard(g, maxWidth - 100 - 100 * count, 10, null);
             } else {
-                main.drawCard(g, maxWidth - 90 - 100 * count, 10, cards.get(size - 1));
+                main.drawCard(g, maxWidth - 100 - 100 * count, 10, cards.get(size - 1));
             }
             count--;
         }
@@ -75,7 +74,7 @@ public class StoredPanel extends JPanel implements GraphicsPainter, MouseListene
     public void mousePressed(MouseEvent e) {
         Point point = main.getMouseLocation();
         int column = point.getX() / 100 - 3;
-        if (column >= 0) {
+        if (column >= 0 && column < SuitType.values().length) {
             dragging = SuitType.values()[column];
         }
     }

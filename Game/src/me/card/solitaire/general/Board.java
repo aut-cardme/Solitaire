@@ -105,7 +105,7 @@ public class Board {
      */
     public boolean isFinished() {
         for (int i = 0; i < stored.length; i++) {
-            if (stored.length != CardType.values().length) {
+            if (stored[i].size() != CardType.values().length) {
                 return false;
             }
         }
