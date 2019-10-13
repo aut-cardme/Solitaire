@@ -1,7 +1,6 @@
 package me.card.solitaire.graphical;
 
 import javax.imageio.ImageIO;
-import javax.swing.plaf.synth.SynthUI;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
